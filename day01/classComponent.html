@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React</title>
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
+<!-- react cdn链接 -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+
+<script type="text/babel">
+  const { createRoot } = ReactDOM;
+  const root = createRoot(document.getElementById('app'));
+
+  // App组件
+  class App extends React.Component {
+    constructor(props) {
+      super(props);
+    }
+
+    // 数据、状态
+    state = {
+      title: 'hello world'
+    }
+
+    // 方法
+    btnClick() {
+      this.setState({
+        title: 'hello react'
+      })
+    }
+
+    // 视图
+    render() {
+      const { title } = this.state;
+      return (
+        <div className="wrapper">
+          <h2>{title}</h2>
+          <button onClick={this.btnClick.bind(this)}>Change</button>
+        </div>
+      );
+    }
+  }
+
+  root.render(<App />);
+</script>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>React</title>
+</head>
+
+<body>
+  <div id="app"></div>
+</body>
+<!-- react cdn链接 -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+
+<script type="text/babel">
+
+  // -----------------------有问题的代码部分
+  // const { createRoot } = ReactDOM;
+
+  // const root = createRoot(document.getElementById('app'));
+
+  // let title = 'hello world';
+
+  // function btnClick() {
+  //   title = 'hello React';
+  // }
+
+  // root.render((
+  //   <div className="wrapper">
+  //     <h2>{title}</h2>
+  //     <button onClick={btnClick}>Change</button>
+  //   </div>
+  // ));
+
+  // ----------------------正确的代码部分
+
+  // const { createRoot } = ReactDOM;
+
+  // const root = createRoot(document.getElementById('app'));
+
+  // let title = 'hello world';
+
+  // function btnClick() {
+  //   title = 'hello React';
+  //   root.render((
+  //     <div className="wrapper">
+  //       <h2>{title}</h2>
+  //       <button onClick={btnClick}>Change</button>
+  //     </div>
+  //   ));
+  // }
+
+  // root.render((
+  //   <div className="wrapper">
+  //     <h2>{title}</h2>
+  //     <button onClick={btnClick}>Change</button>
+  //   </div>
+  // ));
+
+  // ----------------------抽离render代码的部分
+  const { createRoot } = ReactDOM;
+
+  const root = createRoot(document.getElementById('app'));
+
+  let title = 'hello world';
+
+  function btnClick() {
+    title = 'hello React';
+    renderComponent();
+  }
+
+  renderComponent();
+
+  function renderComponent() {
+    root.render((
+      <div className="wrapper">
+        <h2>{title}</h2>
+        <button onClick={btnClick}>Change</button>
+      </div>
+    ));
+  }
+</script>
+
+</html>
