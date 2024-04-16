@@ -1,53 +1,7 @@
 
-React列表渲染：
-1. 但是React的JSX正是因为和JavaScript无缝衔接，让它可以更加灵活。
-
-
-
-JSX的转换过程：
-  render函数返回的JSX元素，Babel将会进行转换。每遇到一个标签，
-都会被createElement()进行转换创建出虚拟的DOM树，然后虚拟DOM会被
-转换为真实DOM树。
-
-实际上，JSX仅仅只是React.createElement()函数的语法糖。
-  1. 所有的jsx最终都会被转换成React.createElement函数的调用
-createElement需要传递三个参数：
-参数一：type
-  1. 当前ReactElement的类型；
-  2. 如果是标签元素，那么就使用字符串表示div；
-  3. 如果是组件元素，那么就直接使用组件的名称；
-参数二：config
-  1. 所有jsx中的属性都在config中以对象的属性和值的形式存储；
-  2. 比如传入className作为元素的class；
-参数三：children
-  1. 存放在标签中的内容，以children数组的方式进行存储；
-  2. 当然，如果是多个元素呢？React内部有对它们进行处理；
-
-我们通过React.createElement最终创建出来一个ReactElement对象：
-  这个ReactElement对象是什么作用呢？React为什么要创建它呢？
-  1. 原因是React利用ReactElement对象组成了一个JavaScript对象树；
-  2. JavaScript的对象树就是虚拟DOM（Virtual DOM）;
-
-虚拟DOM的作用：
-1. 在DOM更新的时候能够减少不必要的更新（diff算法）。
-2. 虚拟DOM本质是js对象，并没有渲染到界面上，React将
-虚拟DOM转换为真实DOM，将真实DOM挂载到界面上。
-React可以将虚拟DOM转换为控件，可以开发IOS/Android
-端（跨平台开发）。
-3.虚拟DOM帮助我们从命令式编程转换为声明式编程的模式
-  a. 虚拟DOM是一种编程理念，在这个理念中，UI以一种理想化或者
-说虚拟化的方式保存在内存中，并且它是一个相对简单的JavaScript对象；
-  b. 我们可以通过root.render()让虚拟DOM和真实DOM同步起来，这个
-过程中叫做协调（Reconciliation）;
-
-这种编程的方式赋予了React声明式的API：
-1. 你需要告诉React希望让UI是什么状态；
-2. React来确保DOM和这些状态是匹配的；
-3. 你不需要直接进行DOM操作，就可以从手动更改DOM、属性操作、事件处理中解放出来；
 
 
 购物车的案例
-
 
 
 React脚手架解析：

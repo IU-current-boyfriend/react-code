@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<body>
+  <div id="app"></div>
+
+</body>
+
+<script type="text/babel">
+  // 购物车案例,我想做个什么功能呢？首先，满足购物车中物品数量的加减，当数量小于0时，则删除该商品，
+  // 当数量大于最大购物数量时，则无法继续添加。
+  // 搜索框可以检索物品，检索的条件，是根据商品名称中是否包含
+
+  const { createRoot } = ReactDOM;
+
+  class Cart extends React.Component {
+    state = {
+      // 商品列表
+      productList: [
+        {
+          id: 0,
+          name: '华为Phone',
+          count: 0,
+          lastCount: 10,
+        },
+        {
+          id: 1,
+          name: 'iphone',
+          count: 0,
+          lastCount: 20
+        },
+        {
+          id: 2,
+          name: '小米Phone',
+          count: 0,
+          lastCount: 10,
+        },
+        {
+          id: 3,
+          name: 'oppoPhone',
+          count: 0,
+          lastCount: 30
+        }
+      ],
+      // 复制一份原有的商品列表，用于重置
+      copyProductList: [
+        {
+          id: 0,
+          name: '华为Phone',
+          count: 0,
+          lastCount: 10,
+        },
+        {
+          id: 1,
+          name: 'iphone',
+          count: 0,
+          lastCount: 20
+        },
+        {
+          id: 2,
+          name: '小米Phone',
+          count: 0,
+          lastCount: 10,
+        },
+        {
+          id: 3,
+          name: 'oppoPhone',
+          count: 0,
+          lastCount: 30
+        }
+      ],
+      // 搜索关键词
+      keyword: '',
+    }
+
+    productActions({
+      type,
+      id
+    }) {
+      const { productList } = this.state;
+      const actions = {
+        ADD: this.addAction.bind(this),
+        MINUS: this.minusAction.bind(this)
+      }
+      const needOperationProduction = productList.find(product => product.id === id);
+      actions[type] && actions[type]({
+        type,
+        productList,
+        id,
+        product: needOperationProduction
+      });
+    }
+
+    minusAction({
+      type,
+      productList,
+      id,
+      product
+    }) {
+
+      const count = product && product.count;
+      if (count - 1 < 0) return alert('选一件吧，亲!!!');
+      this.operationProduct({
+        type,
+        productList,
+        id,
+        product
+      });
+    }
+
+    addAction({
+      type,
+      productList,
+      id,
+      product
+    }) {
+      const lastCount = product && product.lastCount;
+      const count = product && product.count;
+      if (lastCount !== undefined && count !== undefined && count + 1 > lastCount) return alert('您购买的数量已经超出最大数量');
+      this.operationProduct({
+        type,
+        productList,
+        id,
+        product
+      });
+    }
+
+    operationProduct({
+      type,
+      productList,
+      id,
+      product
+    }) {
+      const actions = {
+        ADD: (product) => product.count++,
+        MINUS: (product) => product.count--,
+      }
+      product && this.setState({
+        productList: productList.map(product => {
+          if (product.id === id) actions[type] && actions[type](product);
+          return product;
+        })
+      })
+    }
+
+    searchKeyWord(event) {
+      // continue...明天看是否能够优化
+      const { productList, copyProductList } = this.state;
+      const inputKeyWord = event.target.value.trim();
+      // 重置关键字
+      if (inputKeyWord.trim().length <= 0) return this.setState({
+        keyword: '',
+        productList: copyProductList
+      });
+
+      // 更新关键字
+      this.setState({
+        keyword: inputKeyWord
+      });
+
+      // 控制过滤productlist
+
+      const filterProduct = productList.filter(product => String(product.name).includes(inputKeyWord));
+      this.setState({
+        productList: filterProduct
+      });
+    }
+
+    render() {
+      const { productList, keyword } = this.state;
+      return (
+        <div className="wrapper">
+          <div className="search-container">
+            <input
+              placeholder="请输入您想搜索的商品"
+              value={keyword}
+              onInput={this.searchKeyWord.bind(this)}
+            />
+          </div>
+          <div className="product-list-container">
+            <ul className="list-container">
+              {
+                productList.length > 0 ? productList.map(product => (
+                  <li
+                    className="list-item"
+                    key={product.id}>
+                    <span>{product.name}</span>
+                    <button onClick={this.productActions.bind(this, {
+                      type: 'MINUS',
+                      id: product.id
+                    })}>-</button>
+                    <span>{product.count}</span>
+                    <button onClick={this.productActions.bind(this, {
+                      type: 'ADD',
+                      id: product.id
+                    })}>+</button>
+                  </li>
+                )) : <h2>oNo!!!没有搜索到任何商品!!!</h2>
+              }
+            </ul>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  const root = createRoot(document.getElementById('app'));
+  root.render(<Cart />);
+
+</script>
+
+</html>
