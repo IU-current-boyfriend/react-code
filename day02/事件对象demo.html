@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<body>
+  <div id="app"></div>
+
+</body>
+
+<script type="text/babel">
+  const { createRoot } = ReactDOM;
+
+  class App extends React.Component {
+
+    handleClick(name, age, e) {
+      console.log('name: =>', name);
+      console.log('age: =>', age);
+      console.log('e: =>', e);
+    }
+
+    handleClick2(e, name, age) {
+      console.log('e: =>', e);
+      console.log('name: =>', name);
+      console.log('age: =>', age);
+    }
+
+    render() {
+      return (
+        <div className="wrapper">
+          <button onClick={this.handleClick.bind(this, '聪', 18)}>GET EventObj</button>
+          <button onClick={(event) => this.handleClick2(event, '聪', 18)}>GET EventObj</button>
+        </div>
+      );
+    }
+  }
+
+
+  const root = createRoot(document.getElementById('app'));
+
+  root.render(<App />);
+</script>
+
+</html>
