@@ -154,7 +154,6 @@
     }
 
     searchKeyWord(event) {
-      // continue...明天看是否能够优化
       const { productList, copyProductList } = this.state;
       const inputKeyWord = event.target.value.trim();
       // 重置关键字
@@ -162,17 +161,11 @@
         keyword: '',
         productList: copyProductList
       });
-
-      // 更新关键字
-      this.setState({
-        keyword: inputKeyWord
-      });
-
-      // 控制过滤productlist
-
+      // 根据关键字过滤商品列表信息
       const filterProduct = productList.filter(product => String(product.name).includes(inputKeyWord));
       this.setState({
-        productList: filterProduct
+        productList: filterProduct,
+        keyword: inputKeyWord
       });
     }
 
