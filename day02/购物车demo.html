@@ -161,12 +161,14 @@
         keyword: '',
         productList: copyProductList
       });
+
       // 根据关键字过滤商品列表信息
-      const filterProduct = productList.filter(product => String(product.name).includes(inputKeyWord));
+      const filterProduct = copyProductList.filter(product => String(product.name).includes(inputKeyWord));
       this.setState({
         productList: filterProduct,
         keyword: inputKeyWord
       });
+
     }
 
     render() {
