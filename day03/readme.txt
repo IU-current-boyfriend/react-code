@@ -1,36 +1,4 @@
-  生命周期函数：
-    声明周期是一个抽象的概念，在生命周期的整个过程中，分成了很多阶段：
-    1. 比如装载阶段（Mount），组件第一次在DOM树中被渲染的过程；
-    2. 比如更新阶段（Update），组件状态发生变化，重新更新渲染的过程；
-    3. 比如卸载阶段（Unmount），组件从DOM树中被移除的过程；
 
-
-    1. componentDidMount：组件已经挂载到DOM上时，回调；
-    2. componentDidUpdate：组件已经发生了更新时，回调；
-    3. componentWillUnmount：组件即将被移除时，回调；
-
-    谈React生命周期时，主要谈的类组件的生命周期函数，函数组件之后可以通过
-hooks模拟生命周期函数。
-
-
-  mount：constructor函数 => render函数(newProps、setState、forceUpdate)
-=> React updates DOM and refs => componentDidMount => componentDidUpdate => componentWillUnmount
-
-  <HelloWorld />实际上就是通过类创建类的实例。
-
-  生命周期解析：
-  1. Mounting阶段: consturctor => render => componentDidMount
-  2. Updateing阶段: (newProps、setState、forceUpdate) => render => React updates DOM and Refs => componentUpdated
-  3. UnMounting阶段:  从DOM当中移除掉 => componentWillUnmount 
-
-
-  不常用的生命周期函数：
-  1. static getDerivedStateFromProps: state的值在任何时候都依赖于props时使用；该方法返回
-一个对象来更新state；
-  2. shouldComponentUpdate: 通过对比state、props来控制是否调用render函数，和React中的
-纯组件（PureComponent）概念相似PureComponent；
-  3. getSnapshotBeforeUpdate：在React更新DOM之前回调的一个函数，可以获取DOM更新前的
-一些信息（比如说滚动位置）；
 
 
   组件与组件之间的通信：

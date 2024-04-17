@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<body>
+  <div id="app"></div>
+
+</body>
+
+<script type="text/babel">
+  // 最基础的组件通信方式
+  const { createRoot } = ReactDOM;
+
+
+  /**
+   * 错误案例示范:
+   */
+
+  // App作为父组件
+  // class App extends React.Component {
+  //   state = {
+  //     title: 'hello React!!!'
+  //   }
+
+  //   render() {
+  //     const { title } = this.state;
+  //     return (
+  //       <div className="app-container">
+  //         <SubComponent title={title} />
+  //       </div>
+  //     );
+  //   }
+  // }
+
+  // subComponent作为子组件
+  // class SubComponent extends React.Component {
+  //   constructor(props) {
+  //     super(props);
+  //   }
+
+  //   // 改变title属性
+  //   changeTitle() {
+  //     this.setState({
+  //       title: 'hello 靓仔!!!'
+  //     });
+  //   }
+
+  //   render() {
+  //     const { title } = this.props;
+  //     return (
+  //       <div className="sub-component-container">
+  //         <h2>{title}</h2>
+  //         <button onClick={this.changeTitle.bind(this)}>CHANGE TITTLE</button>
+  //       </div>
+  //     );
+  //   }
+  // }
+
+
+  /**
+   * 正确案例示范:
+   */
+
+  // App作为父组件
+  class App extends React.Component {
+    state = {
+      title: 'hello React!!!'
+    }
+
+    setTitle() {
+      this.setState({
+        title: 'hello 靓仔!!!'
+      })
+    }
+
+    render() {
+      const { title } = this.state;
+      return (
+        <div className="app-container">
+          <SubComponent
+            title={title}
+            setTitle={this.setTitle.bind(this)}
+          />
+        </div>
+      );
+    }
+  }
+
+  // subComponent作为子组件
+  class SubComponent extends React.Component {
+    constructor(props) {
+      super(props);
+    }
+
+    // 改变title属性
+    changeTitle() {
+      this.setState({
+        title: 'hello 靓仔!!!'
+      });
+    }
+
+    render() {
+      const { title, setTitle } = this.props;
+      return (
+        <div className="sub-component-container">
+          <h2>{title}</h2>
+          <button onClick={() => setTitle()}>CHANGE TITTLE</button>
+        </div>
+      );
+    }
+  }
+
+  const root = createRoot(document.getElementById('app'));
+  root.render(<App />);
+</script>
+
+</html>
