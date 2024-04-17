@@ -1,33 +1,3 @@
-组件化开发一：
-  
-  类组件的定义：
-  1. 组件的名称是大写字符开头
-  2. 类组件需要继承自React.Component
-  3. 类组件必须实现render函数
-
-  使用class定义一个组件：
-  1. constructor是可选的，我们通常在constructor中初始化一些数据；
-  2. this.state中维护的就是我们组件中的数据
-  3. render方法是class组件中唯一必须实现的方法
-
-  render函数的返回值
-  当render被调用时，它会检查this.props和this.state的变化并返回以下类型之一：
-  1. React元素：通过JSX编写代码就会编译成React.createElement,所以返回的值一只都是
-  React元素。
-  2. 返回数组或者Fragments；如果是数组的话，则会遍历数组，将数组内部的元素
-  显示到页面上。
-  3. Portals：可以渲染子节点到不同的DOM子树中。
-  4. 字符串或者数值类型。
-
-
-  函数式组件：
-  函数式组件的返回值和类组件中render函数返回值一致。
-  函数组件的自己特点（没有hooks的情况下）：
-  1. 没有生命周期，也会被更新并挂载，但是没有生命周期函数。
-  2. this关键字不能指向组件实例对象（因为没有组件实例）。
-  3. 没有内部状态（state）。
-
-
   生命周期函数：
     声明周期是一个抽象的概念，在生命周期的整个过程中，分成了很多阶段：
     1. 比如装载阶段（Mount），组件第一次在DOM树中被渲染的过程；
@@ -55,7 +25,7 @@ hooks模拟生命周期函数。
 
 
   不常用的生命周期函数：
-  1. getDerivedStateFromProps: state的值在任何时候都依赖于props时使用；该方法返回
+  1. static getDerivedStateFromProps: state的值在任何时候都依赖于props时使用；该方法返回
 一个对象来更新state；
   2. shouldComponentUpdate: 通过对比state、props来控制是否调用render函数，和React中的
 纯组件（PureComponent）概念相似PureComponent；

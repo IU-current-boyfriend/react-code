@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<body>
+  <div id="app"></div>
+  <button class="unmount">UNMOUNT APP</button>
+
+</body>
+
+<script type="text/babel">
+  const { createRoot } = ReactDOM;
+
+  class App extends React.Component {
+    constructor(props) {
+      super(props);
+      console.log('App Constructor Executor...');
+    }
+
+    state = {
+      title: 'App title'
+    }
+
+    setTitle() {
+      this.setState({
+        title: 'App new title'
+      })
+    }
+
+    render() {
+      const { title } = this.state;
+      return (
+        <div className="wrapper">
+          <span>{title}</span>
+          <button onClick={this.setTitle.bind(this)}>SET TITLE</button>
+        </div>
+
+      )
+    }
+    componentDidMount() {
+      console.log('componentDidMount Executor...');
+    }
+
+    componentDidUpdate() {
+      console.log('componentUpdate Executor...');
+    }
+
+    componentWillUnmount() {
+      console.log('componentWillUnMount Executor...');
+    }
+  }
+
+
+  const root = createRoot(document.getElementById('app'));
+
+  root.render(<App />);
+
+  // 卸载APP应用组件
+  document.querySelector('.unmount').addEventListener('click', () => {
+    root.unmount();
+  })
+</script>
+
+</html>
