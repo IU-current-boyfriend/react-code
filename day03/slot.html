@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<body>
+  <div id="app"></div>
+
+</body>
+
+<script type="text/babel">
+  /**
+   *  基础插槽的案例 
+   */
+  const { createRoot } = ReactDOM;
+
+  // class App extends React.Component {
+  //   render() {
+  //     return (
+  //       <div className="wrapper">
+  //         <SlotComponent title={"我是配置项"}>
+  //           {/* 比如说我这里的内容想让用户自己配置 */}
+  //           <div className="user-options-container">
+  //             <h2>用户自己配置的内容</h2>
+  //           </div>
+  //         </SlotComponent>
+  //       </div>
+  //     );
+  //   }
+  // }
+
+  // class SlotComponent extends React.Component {
+  //   render() {
+  //     console.log('props: =>', this.props);
+  //     return (
+  //       <div className="slot-component-container">
+  //         {this.props.children}
+  //       </div>
+  //     );
+  //   }
+  // }
+
+  /**
+   *  命名插槽的案例 
+   */
+
+  // class App extends React.Component {
+  //   render() {
+  //     return (
+  //       <div className="warpper">
+  //         <SlotComponent>
+  //           {/* header内容 */}
+  //           <header key="header">我是用户配置的header内容</header>
+  //           {/* main内容 */}
+  //           <main key="main">我是用户配置的main内容</main>
+  //           {/* footer内容 */}
+  //           <footer key="footer">我是用户配置footer内容</footer>
+  //         </SlotComponent>
+  //       </div>
+  //     );
+  //   }
+  // }
+
+  // 遇见的问题：多个JSX元素的时候，你组件内部的动态内容写死了
+
+  // class SlotComponent extends React.Component {
+  //   render() {
+  //     console.log('this.children: =>', this.props.children);
+  //     const { children } = this.props;
+  //     return (
+  //       <div className="slot-container">
+  //         {/* header内容 */}
+  //         <div className="header-container">
+  //           {children[0]}
+  //         </div>
+  //         {/* main内容 */}
+  //         <div className="main-container">
+  //           {children[1]}
+  //         </div>
+  //         {/* footer内容 */}
+  //         <div className="footer-container">
+  //           {children[2]}
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  // }
+
+  // 解决方法，传递唯一的属性标识来解决
+  // class SlotComponent extends React.Component {
+  //   render() {
+  //     const { children } = this.props;
+  //     return (
+  //       <div className="slot-container">
+  //         {
+  //           children.length > 0 && children.map(elem => (
+  //             <div
+  //               key={elem.key}
+  //               className={`${elem.key}-container`}>
+  //               {elem}
+  //             </div>
+  //           ))
+  //         }
+  //       </div>
+  //     );
+  //   }
+  // }
+
+
+  const root = createRoot(document.getElementById('app'));
+
+  root.render(<App />);
+</script>
+
+</html>

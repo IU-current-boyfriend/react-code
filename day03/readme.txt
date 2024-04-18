@@ -1,42 +1,3 @@
-
-
-
-  组件与组件之间的通信：
-    1. 父组件通过属性=值的形式来传递给子组件数据；
-    2. 子组件通过props参数获取父组件传递过来的数据；
-
-
-  参数propTypes，使用propType校验prop类型：
-    1. 当然，如果你项目中默认继承了Flow或者TypeScript，那么直接就可以进行类型验证；
-    2. 但是，即使我们没有使用flow或者TypeScript，也可以通过prop-types库来进行参数验证；
-    // 引入类型检测的包
-    import propTypes from 'prop-types';
-    childCnp1.propTypes = {
-      name: PropTypes.string,
-      age: PropTypes.number,
-      banner: propTypes.array.isRequired,
-    }
-
-  如果没有传递prop的话，默认值的设置：
-    childCnp1.defaultProps = {
-      banners: [],
-      title: '默认标题'
-    }
-
-  ES2022: prop默认值写法
-    static defaultProps = {
-      banners: [],
-      title: '默认标题'
-    }
-
-
-  子组件传递父组件：
-    在Vue中通过自定义事件来完成的。
-    在React中同样是通过props传递消息，只是让父组件给子组件传递一个回调函数，
-在子组件中调用这个函数即可；
-    tab栏切demo案例实现。
-
-
   React组件的插槽实现：
   1. 组件的children子元素:（
     缺点：
@@ -52,6 +13,12 @@
 
   vue中的作用域插槽：
     React里面没有作用域插槽，实际上就是通过props传递，但是传递的是函数形式。
+
+  
+
+
+
+
 
   
   Context应用场景：
