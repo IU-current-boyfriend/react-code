@@ -48,8 +48,11 @@
   //   }
   // }
 
+
+
+
   /**
-   *  命名插槽的案例 
+   *  具名插槽的案例 
    */
 
   // class App extends React.Component {
@@ -113,6 +116,94 @@
   //     );
   //   }
   // }
+
+
+
+  /**
+   * 作用域插槽案例 
+   *  
+   **/
+
+  // class App extends React.Component {
+  //   render() {
+  //     return (
+  //       <div className="wrapper">
+  //         <SlotComponent>
+  //           {
+  //             // 我这里面的内容，不再直接由父组件的作用域去决定如何显示，
+  //             // 我这里的内容可能还牵着着SlotComponent组件内部作用域的影响。
+  //             ({ header, main, footer }) => (
+  //               <div>
+  //                 <div className="header">{header}</div>
+  //                 <div className="main">{main}</div>
+  //                 <div className="footer">{footer}</div>
+  //               </div>
+  //             )
+  //           }
+  //         </SlotComponent>
+  //       </div>
+  //     );
+  //   }
+  // }
+
+  // class SlotComponent extends React.Component {
+  //   render() {
+  //     const { children } = this.props;
+
+  //     return (
+  //       <div className="slot-component">
+  //         {
+  //           children({
+  //             header: 'slot component header',
+  //             main: 'slot component main',
+  //             footer: 'slot component footer'
+  //           })
+  //         }
+  //       </div>
+  //     );
+  //   }
+  // }
+
+
+
+
+  class App extends React.Component {
+    render() {
+      return (
+        <div className="wrapper">
+          <SlotComponent render={
+            ({ header, main, footer }) =>
+            (<div>
+              <div className="header">{header}</div>
+              <div className="main">{main}</div>
+              <div className="footer">{footer}</div>
+            </div>)
+          } />
+        </div>
+      );
+    }
+  }
+
+  class SlotComponent extends React.Component {
+    render() {
+      const { render } = this.props;
+
+      return (
+        <div className="slot-component">
+          {
+            render({
+              header: 'slot component header',
+              main: 'slot component main',
+              footer: 'slot component footer'
+            })
+          }
+        </div>
+      );
+    }
+  }
+
+
+
 
 
   const root = createRoot(document.getElementById('app'));
