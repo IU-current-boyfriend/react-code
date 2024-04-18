@@ -1,26 +1,4 @@
-  React组件的插槽实现：
-  1. 组件的children子元素:（
-    缺点：
-      1. 通过索引值获取传入的元素很容易出错，不能精准的获取传入的原生；
-  ）
-    a. 组件内部只有一个JSX元素，则this.props.children就是该JSX元素
-    b. 组件内部存在多个JSX元素，则this.props.children就是数组形式
-    如果你希望别人在组件内部就只有一个JSX，可以使用propType进行限制，propType.element,
-表示传入的是一个元素。
-  
-  2. props属性传递React元素
-  
 
-  vue中的作用域插槽：
-    React里面没有作用域插槽，实际上就是通过props传递，但是传递的是函数形式。
-
-  
-
-
-
-
-
-  
   Context应用场景：
     非父子组件数据的共享：
     1. 在开发中，比较常见的数据传递方式是通过props属性自上而下（由父到子）进行传递。
