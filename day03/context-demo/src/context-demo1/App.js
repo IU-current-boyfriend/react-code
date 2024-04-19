@@ -5,7 +5,7 @@ import {
 import BaseSubComponent from './BaseSubComponent';
 
 
-export class App extends React.Component {
+export default class App extends React.Component {
   state = {
     header: 'app header-container',
     main: 'app main-container',
