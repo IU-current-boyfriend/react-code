@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<body>
+  <div id="app"></div>
+
+</body>
+
+<script type="text/babel">
+  const { createRoot } = ReactDOM;
+
+  class ParentComponent extends React.Component {
+    state = {
+      count: 0
+    }
+
+    setCount() {
+      this.setState({
+        count: 100
+      })
+    }
+
+    render() {
+      const { count } = this.state;
+      return (
+        <div className="warpper">
+          <span>count: {count}</span>
+          <SubComponent />
+          <button onClick={this.setCount.bind(this)}>SETCOUNT</button>
+        </div>
+      )
+    }
+  }
+
+  // class SubComponent extends React.Component {
+
+  //   state = {}
+
+  //   shouldComponentUpdate(nextProps, nextState) {
+  //     // console.log('prevState: =>', this.state);
+  //     // console.log('prevProps: =>', this.props);
+  //     // return true;
+  //     return nextProps !== this.props && nextState !== this.state;
+  //   }
+
+  //   render() {
+  //     console.log('subcomponent render...');
+  //     return (
+  //       <div className="sub-warpper">
+  //         <span>sub-container</span>
+  //       </div>
+  //     );
+  //   }
+  // }
+
+  class SubComponent extends React.PureComponent {
+    render() {
+      console.log('subComponent render ...');
+      return (
+        <div className="sub-warpper">
+          <span>sub-container</span>
+        </div>
+      );
+    }
+  }
+
+
+
+
+  const root = createRoot(document.getElementById('app'));
+
+  root.render(<ParentComponent />);
+</script>
+
+</html>

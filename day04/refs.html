@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<body>
+  <div id="app"></div>
+
+</body>
+
+<script type="text/babel">
+  const { createRoot } = ReactDOM;
+  const { createRef, forwardRef } = React;
+
+
+  class App extends React.PureComponent {
+    constructor(props) {
+      super(props);
+      this.titleRef = createRef();
+    }
+    render() {
+      return (
+        <div className="warpper">
+          <SubComponent ref={this.titleRef} />
+        </div>
+      );
+    }
+
+    componentDidMount() {
+      console.log('this.refs: =>', this.titleRef.current);
+    }
+  }
+
+  const SubComponent = forwardRef((props, ref) => {
+    return (
+      <div className="sub-container">
+        <div className="title" ref={ref}>title</div>
+      </div>
+    );
+  })
+
+  // class SubComponent extends React.PureComponent {
+  //   render() {
+  //     return (
+  //       <div className="sub-container">
+  //         <div className="title">title</div>
+  //       </div>
+  //     );
+  //   }
+  // }
+
+
+  const root = createRoot(document.getElementById('app'));
+
+  root.render(
+    <App />
+  );
+</script>
+
+</html>
