@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<body>
+  <div id="app"></div>
+
+</body>
+
+<script type="text/babel">
+  const { createRoot } = ReactDOM;
+  const { createRef } = React;
+
+  class App extends React.PureComponent {
+    constructor(props) {
+      super(props);
+      this.options = {
+        userName: [{
+          value: 'name'
+        }],
+        sex: [
+          {
+            id: 1,
+            label: '男',
+            value: 'male'
+          },
+          {
+            id: 2,
+            label: '女',
+            value: 'female'
+          }
+        ],
+        hobbies: [
+          {
+            id: 1,
+            label: '篮球',
+            value: 'basketball',
+          },
+          {
+            id: 2,
+            label: '足球',
+            value: 'footerball',
+          },
+          {
+            id: 3,
+            label: '羽毛球',
+            value: 'badminton',
+          }
+        ],
+        cities: [
+          {
+            id: 1,
+            label: '上海',
+            value: 'shanghai'
+          },
+          {
+            id: 2,
+            label: '北京',
+            value: 'beijing'
+          },
+          {
+            id: 3,
+            label: '深圳',
+            value: 'shenzheng'
+          }
+        ],
+      }
+      // 循环绑定Ref元素
+      this.createFormRefs();
+    }
+
+    createFormRefs() {
+      Object.values(this.options).forEach(option => {
+        option && option.forEach(item => {
+          this[`${item.value}Ref`] = createRef()
+        })
+      });
+    }
+
+
+    submitForm(e) {
+      e.preventDefault();
+      this.createFormData((formData) => {
+        // 发起请求axios
+        console.log('formData: =>', formData);
+      });
+    }
+
+
+    createFormData(cb) {
+      const formData = {};
+      Object.values(this.options).forEach(option => {
+        const tempResult = [];
+        option.forEach(item => {
+          const currentRef = this[`${item.value}Ref`];
+          // 首先判断有没有checked属性
+          const isCurrentRefExistCheckedProperty = currentRef.current.hasOwnProperty('checked');
+          // 如果不存在直接获取value属性
+          if (!isCurrentRefExistCheckedProperty) {
+            formData[currentRef.current.name] = currentRef.current.value;
+          } else {
+            // 如果存在checked属性，要看是否为true，为true的话，被选中的元素值放入数组中
+            const checkedPropertyIsTrue = currentRef.current.checked;
+            if (checkedPropertyIsTrue) tempResult.push(currentRef.current.value);
+            formData[currentRef.current.name] = tempResult;
+          }
+        })
+      });
+      cb && cb(formData);
+    }
+
+    render() {
+      const { options } = this;
+      return (
+        <form onSubmit={this.submitForm.bind(this)}>
+          <div className="user-name-container">
+            <label htmlFor="username">用户名：</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              ref={this.nameRef}
+              defaultValue=''
+            />
+          </div>
+          <div className="user-sex-container">
+            {
+              options.sex && options.sex.map(item => (
+                <React.Fragment key={item.id}>
+                  <label htmlFor={item.value}>{item.label}</label>
+                  <input
+                    type="radio"
+                    id={item.value}
+                    name="sex"
+                    ref={this[`${item.value}Ref`]}
+                    defaultValue={item.value}
+                  />
+                </React.Fragment>
+              ))
+            }
+          </div>
+          <div className="user-hobbies-container">
+            {options.hobbies && options.hobbies.map(hobby => (
+              <React.Fragment key={hobby.id}>
+                <label htmlFor={hobby.value}>{hobby.label}</label>
+                <input
+                  type="checkbox"
+                  name="hobbies"
+                  id={hobby.value}
+                  ref={this[`${hobby.value}Ref`]}
+                  defaultValue={hobby.value}
+                />
+              </React.Fragment>
+            ))}
+          </div>
+          <div className="user-city-container">
+            {options.cities && options.cities.map(city => (
+              <React.Fragment key={city.id}>
+                <label htmlFor={city.value}>{city.label}</label>
+                <input
+                  type="checkbox"
+                  name="cities"
+                  id={city.value}
+                  ref={this[`${city.value}Ref`]}
+                  defaultValue={city.value}
+                />
+              </React.Fragment>
+            ))}
+          </div>
+          <button type="submit">提交表单</button>
+        </form>
+      );
+    }
+  }
+
+  const root = createRoot(document.getElementById('app'));
+
+  root.render(<App />);
+</script>
+
+</html>
