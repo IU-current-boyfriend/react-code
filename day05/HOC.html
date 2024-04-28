@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<body>
+  <div id="app"></div>
+
+</body>
+
+<script type="text/babel">
+  const { createRoot } = ReactDOM;
+
+  class App extends React.PureComponent {
+    state = {
+      oneId: 'one',
+      twoId: 'two'
+    }
+    render() {
+      const { oneId, twoId } = this.state;
+      return (
+        <div className="warpper">
+          <SubComponentOneHoc params={oneId} />
+          <SubComponentTwoHoc params={twoId} />
+        </div>
+      );
+    }
+  }
+
+  // class SubComponentOne extends React.PureComponent {
+  //   constructor(props) {
+  //     super(props);
+  //   }
+
+  //   state = {
+  //     data: []
+  //   }
+
+  //   componentDidMount() {
+  //     const { oneId } = this.props;
+  //     this.getData(oneId);
+  //   }
+
+  //   getData(id) {
+  //     const data = [
+  //       {
+  //         id: 1,
+  //         name: 'list-one',
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'list-two'
+  //       }
+  //     ]
+  //     id && this.setState({
+  //       data
+  //     });
+  //   }
+
+  //   render() {
+  //     const { data } = this.state;
+  //     return (
+  //       <div className="sub-one-container">
+  //         <span>sub-one-container</span>
+  //         <div className="list-container">
+  //           {
+  //             data && data.map(list => (
+  //               <div key={list.id} className="list-item">
+  //                 <span>{list.name}</span>
+  //               </div>
+  //             ))
+  //           }
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  // }
+
+
+  // class SubComponentTwo extends React.PureComponent {
+  //   constructor(props) {
+  //     super(props);
+  //   }
+
+  //   state = {
+  //     data: []
+  //   }
+
+  //   componentDidMount() {
+  //     const { twoId } = this.props;
+  //     this.getData(twoId);
+  //   }
+
+  //   getData(id) {
+  //     const data = [
+  //       {
+  //         id: 1,
+  //         name: 'list-one',
+  //       },
+  //       {
+  //         id: 2,
+  //         name: 'list-two'
+  //       }
+  //     ]
+  //     id && this.setState({
+  //       data
+  //     });
+  //   }
+
+  //   render() {
+  //     const { data } = this.state;
+  //     return (
+  //       <div className="sub-two-container">
+  //         <span>sub-two-container</span>
+  //         <div className="list-container">
+  //           {
+  //             data && data.map(list => (
+  //               <div key={list.id} className="list-item">
+  //                 <span>{list.name}</span>
+  //               </div>
+  //             ))
+  //           }
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  // }
+
+  // 现在SubComponentOne、SubComponentTwo内部有大量类似的逻辑，我现在想复用，此时可以使用高阶函数HOC
+
+  class SubComponentOne extends React.PureComponent {
+    render() {
+      const { data } = this.props;
+      return (
+        <div className="sub-one-container">
+          <span>sub-one-container</span>
+          <div className="list-container">
+            {data.length > 0 ? data.map(item => (
+              <div key={item.id}>{item.name}</div>
+            )) : <span>暂无数据</span>}
+          </div>
+        </div>
+      );
+    }
+  }
+
+
+  class SubComponentTwo extends React.PureComponent {
+    render() {
+      const { data } = this.props;
+      return (
+        <div className="sub-one-container">
+          <span>sub-one-container</span>
+          <div className="list-container">
+            {data.length > 0 ? data.map(item => (
+              <div key={item.id}>{item.name}</div>
+            )) : <span>暂无数据</span>}
+          </div>
+        </div>
+      );
+    }
+  }
+
+  const componentHOC = (WarpperComponent) => {
+    return class Hoc extends React.PureComponent {
+      state = {
+        data: []
+      }
+
+      componentDidMount() {
+        setTimeout(() => {
+          this.getData();
+        }, 1000);
+      }
+
+      getData() {
+        const { params } = this.props;
+        const data = [
+          {
+            id: 1,
+            name: 'list-one',
+          },
+          {
+            id: 2,
+            name: 'list-two'
+          }
+        ]
+        params && this.setState({
+          data
+        });
+      }
+
+      render() {
+        const { data } = this.state;
+        return (
+          <WarpperComponent data={data} />
+        );
+      }
+    }
+  }
+
+
+  const SubComponentOneHoc = componentHOC(SubComponentOne);
+
+  const SubComponentTwoHoc = componentHOC(SubComponentTwo);
+
+  const root = createRoot(document.getElementById('app'));
+
+  root.render(<App />);
+</script>
+
+</html>
