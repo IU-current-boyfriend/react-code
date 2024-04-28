@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<body>
+  <div id="app"></div>
+
+</body>
+
+<script type="text/babel">
+
+  // 受控组件的案例
+
+  const { createRoot } = ReactDOM;
+
+  class App extends React.PureComponent {
+    constructor(props) {
+      super(props);
+      this.options = {
+        sex: [
+          {
+            id: 1,
+            label: '男',
+            value: 'male'
+          },
+          {
+            id: 2,
+            label: '女',
+            value: 'female'
+          }
+        ],
+        hobbies: [
+          {
+            id: 1,
+            label: '篮球',
+            value: 'basketball',
+          },
+          {
+            id: 2,
+            label: '足球',
+            value: 'footerball',
+          },
+          {
+            id: 3,
+            label: '羽毛球',
+            value: 'badminton',
+          }
+        ],
+        cities: [
+          {
+            id: 1,
+            label: '上海',
+            value: 'shanghai'
+          },
+          {
+            id: 2,
+            label: '北京',
+            value: 'beijing'
+          },
+          {
+            id: 3,
+            label: '深圳',
+            value: 'shenzheng'
+          }
+        ],
+      }
+    }
+    state = {
+      formData: {
+        username: '',
+        sex: '',
+        hobbies: [],
+        cities: []
+      }
+    }
+
+    setUserOptionsOnePart(e) {
+      const inputUserName = e.target.value;
+      const inputName = e.target.name;
+      const { formData } = this.state;
+      formData[inputName] = inputUserName;
+      this.setState({
+        formData: Object.assign({}, formData)
+      });
+    }
+    setUserOptionsTwoPart(option, e) {
+      const { formData } = this.state;
+      const inputName = e.target.name;
+      const isExistCurrentOption = formData[inputName].find(item => item.id === option.id);
+      !isExistCurrentOption
+        ? formData[inputName] = [...formData[inputName], option]
+        : formData[inputName] = formData.hobbies.filter(item => item.id !== option.id);
+      this.setState({
+        formData: Object.assign({}, formData)
+      });
+    }
+
+    getFormData() {
+      console.log('formData: =>', this.state.formData);
+    }
+
+    render() {
+      const { formData } = this.state;
+      const { options } = this;
+      return (
+        <div className="warpper">
+          <div className="user-container">
+            <label htmlFor="username">用户名称：</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="请输入用户名称"
+              value={formData.username}
+              onChange={this.setUserOptionsOnePart.bind(this)}
+            />
+          </div>
+          <div className="sex-container">
+            {
+              options.sex && options.sex.map(item => (
+                <React.Fragment key={item.id}>
+                  <label htmlFor={item.value}>{item.label}</label>
+                  <input
+                    type="radio"
+                    name="sex"
+                    value={item.value}
+                    id={item.value}
+                    onChange={this.setUserOptionsOnePart.bind(this)} />
+                </React.Fragment>
+              ))
+            }
+          </div>
+          <div className="hobbies-container">
+            {
+              options.hobbies && options.hobbies.map(item => (
+                <React.Fragment key={item.id}>
+                  <label htmlFor={item.value}>{item.label}</label>
+                  <input
+                    type="checkbox"
+                    name="hobbies"
+                    value={item.value}
+                    id={item.value}
+                    onChange={this.setUserOptionsTwoPart.bind(this, item)} />
+                </React.Fragment>
+              ))
+            }
+          </div>
+          <div className="city-container">
+            {
+              options.cities && options.cities.map(item => (
+                <React.Fragment key={item.id}>
+                  <label htmlFor={item.value}>{item.label}</label>
+                  <input
+                    type="checkbox"
+                    name="cities"
+                    value={item.value}
+                    id={item.value}
+                    onChange={this.setUserOptionsTwoPart.bind(this, item)} />
+                </React.Fragment>
+              ))
+            }
+          </div>
+          <button onClick={this.getFormData.bind(this)}>GET FORMDATA</button>
+        </div>
+      );
+    }
+  }
+
+
+  const root = createRoot(document.getElementById('app'));
+
+  root.render(<App />);
+</script>
+
+</html>

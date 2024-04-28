@@ -1,33 +1,3 @@
-认识受控组件: 
-  基础逻辑：当控件绑定value属性，并且value属性是state数据
-中的某个数据，则该组件是受控组件；
-  受控组件（value + onChange）:
-    在HTML中，表单元素（如<input>、<textarea>、<select>）之类的表单元素通常自己
-维护state，并根据用户输入的行为进行更新。
-  而在React中，可变状态（mutable state）通常保存在组件的state属性中，并且只能通过
-使用setState()来更新。
-  1. 我们将两者结合起来，使React的state成为“唯一数据源”；
-  2. 渲染表单的React组件还控制着用户输入过程中表单发生的操作；
-  3. 被React以这种方式控制取值的表单输入元素就叫做“受控组件”；
-  由于在表单上设置了value属性，因此显示的值将始终为this.state.value，
-这使得React的state成为唯一数据源。
-  由于handleUsernameChange在每次按键时都会执行并且更新React的state，
-因此显示的值将会随着用户输入而更新。
-
-
-input组件的绑定注意事项：
-我们可以在event.target.name获取到控件上绑定的name属性；
-
-checkbox的单选多选案例注意事项:
-1. checkbox多选的时候，数据应该是数组形式，
-但是数组内部必须是对象形式。
-
-
-select单选多选：
-1. event.target.selectOptions;
-2. 数据也是数组的形式
-
-
 非受控组件：
   React推荐大多数情况下使用受控组件来处理表单数据；
     1. 一个受控组件中，表单数据是由React组件来管理的；
