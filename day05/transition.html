@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://unpkg.com/react-transition-group/dist/react-transition-group.js"></script>
+
+<body>
+  <div id="app"></div>
+
+</body>
+
+<script type="text/babel">
+  const { createRoot } = ReactDOM;
+  const { createRef } = React;
+  const { Transition } = ReactTransitionGroup;
+
+  class App extends React.PureComponent {
+    constructor(props) {
+      super(props);
+      this.duration = 300;
+      this.defaultStyle = {
+        transition: `opacity ${this.duration}ms ease-in-out`,
+        opacity: 0,
+      }
+      this.transitionStyles = {
+        entering: { opacity: 1 },
+        entered: { opacity: 1 },
+        exiting: { opacity: 0 },
+        exited: { opacity: 0 }
+      }
+      this.nodeRef = createRef();
+    }
+    state = {
+      // inProp: true 配合appear使用，完成初次挂载时执行enter transition动画
+      inProp: false
+    }
+
+    setInProp() {
+      this.setState({
+        inProp: !this.state.inProp
+      });
+    }
+
+    render() {
+      const { inProp } = this.state;
+      return (
+        <Transition
+          nodeRef={this.nodeRef}
+          in={inProp}
+          timeout={this.duration}
+        // {/* 默认情况下子组件在第一次挂载的时候，不会执行enter transition*/}
+        // appear={true}
+        >
+          {
+            (state) => (
+              <React.Fragment>
+                <span>{state}</span>
+                <div
+                  ref={this.nodeRef}
+                  style={
+                    {
+                      ...this.defaultStyle,
+                      ...this.transitionStyles[state]
+                    }
+                  }
+                >
+                  I'm a fade Transition!
+                </div>
+                <button onClick={this.setInProp.bind(this)}>点击切换动画</button>
+              </React.Fragment>
+            )
+          }
+        </Transition>
+      );
+    }
+  }
+
+  const root = createRoot(document.getElementById('app'));
+
+  root.render(<App />);
+</script>
+
+</html>
