@@ -1,38 +1,4 @@
-高阶组件（对原来的组件进行拦截操作）：  
-  高阶组件的英文是"Higher-Order Components"，简称HOC;
-  官方的定义：高阶组件是参数为组件，返回值为新组件的函数；高阶组件本身不是一个组件，
-而是一个函数；
-  高阶组件特点：
-  1. 接受一个组件作为它的参数；
-  2. 返回一个新的组件；
-  定义一个高阶组件：(高阶组件对原有的组件进行一层拦截)
-    function hoc(Cpn) {
-      class NewCpn extends PureComponent {
 
-      }
-      return NewCpn;
-    }
-  高阶组件并不是React API的一部分，它是基于React的组合特性而
-形成的设计模式；
-  高阶组件在一些React第三方库中非常常见：
-  1. 比如redux的connect函数：
-    (export default connect(fn1, fn2)(Home)：将redux
-    中的数据，插入到Home中的props里面)
-  2. 比如react-router的withRouter
-  3. 高阶组件的名称都可以通过displayName来修改
-
-
-高阶组件其实早期的React有提供组件之间的一种复用方式是mixin，目前已经不推荐使用：
-1. mixin可能会相互依赖，相互耦合，不利于代码维护；
-2. 不同的Mixin中的方法可能会相互冲突；
-3. mixin非常多时，组件处理起来会比较麻烦，甚至还要为其做相关处理，这样会给代码造成滚雪式的复杂性；
-
-当然，HOC也有自己的一些缺陷：
-1. HOC需要在原组件上进行包裹或者嵌套，如果大量使用HOC，将会产生非常多的嵌套，这让调试变得非常困难；
-2. HOC可以劫持props，在不遵守约定的情况下也可能造成冲突；
-
-Hooks的出现，是开创性的，它解决了很多React之间的存在的问题：
-1. 比如this指向问题、比如HOC的嵌套复杂度问题等等；
 
 
 Portals的使用：
