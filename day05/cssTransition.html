@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    /* CSSTransition组件 appear初次挂载的样式 */
+    .my-node-appear {}
+
+    .my-node-appear-active {}
+
+    .my-node-appear-done {}
+
+    /* 渐入和渐出的样式类 */
+    .my-node-enter {
+      opacity: 0;
+    }
+
+    .my-node-enter-active {
+      opacity: 1;
+      transition: opacity 200ms;
+    }
+
+    /* .my-node-enter-done {
+      opacity: 1;
+    }
+
+    .my-node-exit {
+      opacity: 1;
+    } */
+
+    .my-node-exit-active {
+      opacity: 0;
+      transition: opacity 200ms;
+    }
+
+    .my-node-exit-done {
+      opacity: 0;
+    }
+  </style>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://unpkg.com/react-transition-group/dist/react-transition-group.js"></script>
+
+<body>
+  <div id="app"></div>
+
+</body>
+
+
+
+<script type="text/babel">
+  const { createRoot } = ReactDOM;
+  const { createRef } = React;
+  const { CSSTransition } = ReactTransitionGroup;
+
+  class App extends React.PureComponent {
+    constructor(props) {
+      super(props);
+      this.nodeRef = createRef();
+    }
+    state = {
+      startTranstion: true
+    }
+
+    setStartTransition() {
+      this.setState({
+        startTranstion: !this.state.startTranstion
+      });
+    }
+
+    render() {
+      const { startTranstion } = this.state;
+      return (
+        <div className="css-transition-container">
+          <CSSTransition
+            in={startTranstion}
+            timeout={200}
+            nodeRef={this.nodeRef}
+            classNames="my-node"
+            unmountOnExit
+          >
+            <div ref={this.nodeRef}>
+              Need Transtion Element...
+            </div>
+          </CSSTransition>
+          <button onClick={this.setStartTransition.bind(this)}>CHANGE TRANSITION</button>
+        </div>
+      );
+    }
+  }
+
+  const root = createRoot(document.getElementById('app'));
+
+  root.render(<App />);
+</script>
+
+</html>

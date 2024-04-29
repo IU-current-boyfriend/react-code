@@ -39,8 +39,7 @@
       this.nodeRef = createRef();
     }
     state = {
-      // inProp: true 配合appear使用，完成初次挂载时执行enter transition动画
-      inProp: false
+      inProp: true
     }
 
     setInProp() {
@@ -56,8 +55,7 @@
           nodeRef={this.nodeRef}
           in={inProp}
           timeout={this.duration}
-        // {/* 默认情况下子组件在第一次挂载的时候，不会执行enter transition*/}
-        // appear={true}
+          appear={true}
         >
           {
             (state) => (
