@@ -1,28 +1,3 @@
-
-
-
-Portals的使用：
-1. 某些情况下，我们希望渲染的内容独立于父组件，甚至是独立于当前
-挂载到的DOM元素中（默认都是挂载到id为root的真实DOM节点）
-
-使用方式:
-import { createPortal } from 'react-dom';
-
-<div className="app">
-  {
-    createPortal(<h2>h2</h2>, document.querySelector('.app'));
-  }
-</div>
-
-
-Fragment的使用:
-  Fragment的目的和Vue中的template类似：
-import { Fragment } from 'react';
-  1. <Fragment></Fragment>
-  2. <></>(如果需要绑定key值的话，是不可以使用这种语法糖的方式)
-
-
-
 StrictMode严格模式：(StrictMode是一个用来突出显示应用程序中潜在问题的工具)
 1. 与Fragment一样，StrictMode不会渲染任何可见的UI
 2. 它为其后代元素触发额外的检查和警告

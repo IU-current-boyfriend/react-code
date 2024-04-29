@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<body>
+  <div id="app"></div>
+
+</body>
+
+<script type="text/babel">
+  const { createRoot } = ReactDOM;
+
+  class App extends React.PureComponent {
+    state = {
+      data: [
+        {
+          id: 1,
+          content: 'list-one',
+        },
+        {
+          id: 2,
+          content: 'list-two',
+        },
+        {
+          id: 3,
+          content: 'list-three'
+        }
+      ]
+    }
+    render() {
+      const { data } = this.state;
+      return (
+        <div className="list-container">
+          {data && data.map(list => (
+            // 方式一
+            <React.Fragment key={list.id}>
+              <span>id: {list.id}</span>
+              <span>content: {list.content}</span>
+            </React.Fragment>
+            // 方式二: <><>, 这种方式现在的环境跑不起来，应该和babel编译有关系，可以自己创建React项目，然后再去试试这种方式
+            // <>
+            //   <span>id: {list.id}</span>
+            //   <span>content: {list.content}</span>
+            // </>
+          ))}
+        </div>
+      );
+    }
+  }
+
+  const root = createRoot(document.getElementById('app'));
+
+  root.render(<App />);
+</script>
+
+</html>
