@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .list-item {
+      width: 200px;
+    }
+
+    .listItem-enter {
+      opacity: 0;
+      transform: translateX(-100%);
+    }
+
+    .listItem-enter-active {
+      opacity: 1;
+      transform: translateX(0%);
+      transition: all .5s ease-in-out;
+    }
+
+    .listItem-exit-active {
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all .5s ease-in-out;
+    }
+
+    .listItem-exit-done {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  </style>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://unpkg.com/react-transition-group/dist/react-transition-group.js"></script>
+
+<body>
+  <div id="app"></div>
+
+</body>
+
+<script type="text/babel">
+  const { createRoot } = ReactDOM;
+  const { TransitionGroup, CSSTransition } = ReactTransitionGroup;
+  const { createRef } = React;
+
+  class App extends React.PureComponent {
+    constructor(props) {
+      super(props);
+    }
+    state = {
+      listData: [],
+      inputValue: ''
+    }
+
+    setInputValue(e) {
+      this.setState({
+        inputValue: e.target.value
+      });
+    }
+
+    addListItem() {
+      const { listData, inputValue } = this.state;
+      listData.push({
+        id: new Date().getTime(),
+        title: inputValue,
+        nodeRef: createRef(null)
+      });
+      this.setState({
+        inputValue: '',
+        listData: [...listData]
+      })
+    }
+
+    deleteListItem(id) {
+      const { listData } = this.state;
+      this.setState({
+        listData: listData.filter(list => list.id !== id)
+      });
+    }
+
+    render() {
+      const { inputValue, listData } = this.state;
+      return (
+        <div className="warpper">
+          {/* 输入框容器 */}
+          <div className="input-container">
+            <input
+              placeholder="请输入您想输入的内容..."
+              value={inputValue}
+              onChange={this.setInputValue.bind(this)}
+            />
+            <button onClick={this.addListItem.bind(this)}>ADD TODOLIST</button>
+          </div>
+          {/* 列表展示容器 */}
+          <div className="list-container">
+            {
+              <TransitionGroup>
+                {
+                  listData.length > 0 && listData.map(list => (
+                    <CSSTransition
+                      key={list.id}
+                      classNames="listItem"
+                      timeout={500}
+                      nodeRef={list.nodeRef}
+                    >
+                      <div ref={list.nodeRef} className="list-item">
+                        <span className="title">{list.title}</span>
+                        <button onClick={this.deleteListItem.bind(this, list.id)}>DELETE TODOLIST</button>
+                      </div>
+                    </CSSTransition>
+                  ))
+                }
+              </TransitionGroup>
+            }
+          </div>
+        </div>
+      );
+    }
+  }
+
+  const root = createRoot(document.getElementById('app'));
+
+  root.render(<App />);
+</script>
+
+</html>
