@@ -35,7 +35,7 @@ const calculatorReducer = (state = initialState, { type, pyload }) => {
         count: state.count * pyload.count
       }
     default:
-      return initialState;
+      return state;
   }
 }
 

@@ -1,3 +1,4 @@
 export const initialState = {
-  count: 0,
+  banners: [],
+  comments: []
 }

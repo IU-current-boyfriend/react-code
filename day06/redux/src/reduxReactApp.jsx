@@ -4,6 +4,8 @@ import HomeApp from './reduxReact-store/home';
 import AboutApp from './reduxReact-store/about';
 import Detail from "./reduxReact-store/detail";
 import store from './reduxReact-store/index';
+import DetailAsync from "./reduxReact-store/detail-async";
+import DetailAsyncStore from './reduxReact-store/asyncIndex';
 
 
 export default class ReduxReactApp extends PureComponent {
@@ -14,6 +16,9 @@ export default class ReduxReactApp extends PureComponent {
           <HomeApp />
           <AboutApp />
           <Detail />
+        </Provider>
+        <Provider store={DetailAsyncStore}>
+          <DetailAsync />
         </Provider>
       </div>
     )
