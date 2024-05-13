@@ -1,35 +1,3 @@
-React测试插件:
-  1. redux-devtool（生产环境，是看不到redux的）
-    开启redux-devtool:
-      github上面看redux-devtools-extension打开的步骤:
-      // 生产环境是需要要把window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__去除
-        a. const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-        b. const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
-        c. 开启代码调用track配置：window._R EDUX_DEVTOOLS_EXTENSION_COMPOSE_({track: true})
-  2. react-devtool
-
-
-    7. 创建多个store模块，将我们两个reducer合并在一起；
-      import { combineReducers } from 'redux';
-      const reducer = combineReducers({
-        counter: couterReducer,
-        home: homeReducer
-      });
-      const store = createStore(reducer);
-
-    8. combineReducers实现原理
-      function reducer(state = {}, action) {
-        // 返回的对象，作为store中的state
-        return {
-          counter: counterReducer(state.counter, action),
-          home: homeReducer(state.home, action)
-        }
-      };
-
-
-
-
-
 ReduxToolKit(RTK):
   1. 安装 npm install @reduxjs/toolkit react-redux  
   2. ReduxToolKit的核心api：
