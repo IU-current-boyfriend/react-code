@@ -1,1 +1,0 @@
-export const FETCH_HOME_DATA = 'home/fetch_data';
