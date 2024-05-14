@@ -3,11 +3,11 @@ import DetailSlice from './detail/index';
 import HomeSlice from './home/index';
 
 
-const slice = configureStore({
+const store = configureStore({
   reducer: {
     detail: DetailSlice,
     home: HomeSlice
   }
 });
 
-export default slice;
+export default store;
