@@ -1,12 +1,2 @@
-import {
-  connect
-} from './connect';
-
-import {
-  ConnectContext
-} from './context';
-
-export {
-  connect,
-  ConnectContext
-}
+export { connect } from './connect';
+export { ConnectContext } from './context';  
