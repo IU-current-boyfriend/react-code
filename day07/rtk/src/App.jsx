@@ -4,6 +4,7 @@ import HomeComponent from "./components/HomeComponent";
 import DetailComponent from "./components/DetailComponent";
 import DetailCopy from "./components/DetailCopy";
 import Store from './store/index';
+import { ConnectContext } from "./hoc";
 
 
 
@@ -15,7 +16,9 @@ export default class App extends PureComponent {
         <Provider store={Store}>
           <HomeComponent />
           <DetailComponent />
-          <DetailCopy />
+          <ConnectContext.Provider value={Store}>
+            <DetailCopy />
+          </ConnectContext.Provider>
         </Provider>
       </div>
     )
