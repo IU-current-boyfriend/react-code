@@ -329,7 +329,100 @@ const useLogLife = () => {
 
 自定义Hook的context共享案例（本质上就是逻辑抽取）；
   
-1598
+
+
+
+redux hooks：类组件是没有办法使用hook的，类组件还是需要使用connect函数
+  这两个hook的目的就是为了代替connect函数的使用
+  useSelector的作用是将state映射到组件中：
+    参数一：将state映射到需要的数据中；
+    参数二：可以进行比较来决定是否组件重新渲染；
+
+  useSelector默认会比较我们返回的两个对象是否相等：
+    1. 如何比较呢？const refEquality = (a, b) => a === b;
+    2. 也就是我们必须返回两个完全相等的对象才可以不引起重新渲染;
+    3. useSelector((state) => {}, shallowEqual);
+    4. shallowEqual会对比当前state对象和修改后的state对象，只有两个对象不完全相等的时候，才会重新渲染。
+
+
+  useDispatch非常简单，就是直接获取dispatch函数；
+
+
+  import { useSelector } from 'react-redux';
+
+  // 获取redux中的值
+    const state = useSelector((state) => {
+      return {
+        count: state.counter.count
+      }
+    });
+
+  // 派发redux中的任务
+    const dispatch = useDispatch();
+    dispatch(addNumberAction(num));
+
+  
+  useSelector默认监听state，如果state发生改变的话，将会导致组件
+重新渲染，这个逻辑是不对的，这个地方是需要进行优化性能的。
+
+
+  首屏渲染的速度：为什么首屏渲染慢呢？
+    SPA页面，因为当你在浏览器中输入域名之后，因为它要
+请求一个index.html文件。获取到index.html文件之后，浏览器要解析index.html文件，
+当解析到script脚本的代码时，将会下载js文件，并且执行他。但是呢，有些JS文件是非常消耗
+时间的，所以我们对于首屏渲染来说是比较慢的。而SSR服务端渲染是直接在服务器端组装完index.html文件。获取到index
+的内容之后，直接返回index.html文件，所以客户端下载完之后index.html，就可以呈现index.html中的
+所有内容。所以，相比于SSR来说，SPA的首屏渲染将会慢于SSR的方式。
+
+  同构应用：
+    1. 一套代码即可以在服务端运行又可以在客户端运行，这就是同构应用；
+    2. 同构是一种SSR的形态，是现代SSR的一种表现形式。
+      a. 当用户发出请求时，先在服务器通过SSR渲染出首页的内容；
+      b. 但是对应的代码同样可以在客户端被执行；
+      c. 执行的目的包括事件绑定等以及其它页面切换时也可以在客户端被渲染；
+    3. 同构应用实际上就是生成一个app.js文件，这个app.js文件作为服务端入口和
+客户端入口，通过webpack打包之后，交由服务端和客户端进行处理。
+ 
+  hydrate：
+    本质上是同构的一个过程，在进行SSR时，我们的页面会呈现为HTML,
+但仅HTML不足以使页面具有交互性。例如，浏览器端javascript为零的页面
+不能是交互的（没有JavaScript事件处理程序来响应用户的操作，例如单击按钮）。
+    为了使我们的页面具有交互性，除了在Node.js中将页面呈现为HTML之外，我们的UI框架
+还在浏览器中加载和呈现页面。（它创建页面的内部表示，然后将内部表示映射到我们在Node.js中呈现的HTML
+的DOM元素）。
+
+
+useId： useId是一个用于生成横跨服务端和客户端的翁丁的唯一ID的同时避免hydration不匹配的hook。
+  1. useId是用于react的同构应用开发的，前端的SPA页面并不需要使用它；
+  2. useId可以保证应用程序在客户端和服务器端生成唯一的ID，这样可以有效的
+避免通过一些手段生成的id不一致，造成hydration mismatch;
+
+
+
+
+useTransition:
+  useTransition: 它其实在告诉React对于某部分任务的更新优先级比较低，可以稍后进行更新；
+  案例：关键字搜索的过滤操作，当数据多的时候，我删除关键字，下面过滤的信息展示很慢。
+    但是我们的需求是，删除的优先级高，但是过滤展示的优点低。我们可以使用useTransition来
+对优先级低的操作进行稍后更新；
+
+  const [pending, setTransition] = useTransition();
+  setTransition(() => {
+    // 关键字过滤操作
+  });
+
+
+useDeferredValue：
+  效果和useTransition类似；
+  useDeferredValue接受一个值，并返回该值的新副本，该副本将推迟到更紧急地推迟更新；
+  const deferedShowNames = useDeferredValue(showNames);
+  
+1609
+
+
+
+
+
 
 
 
