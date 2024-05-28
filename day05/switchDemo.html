@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .title {
+      width: 100px;
+      height: 30px;
+      padding: 15px 10px;
+      border-radius: 4px;
+      background-color: purple;
+      text-align: center;
+      color: white;
+    }
+
+    .fade-enter {
+      transform: translate(100%);
+      opacity: 0;
+    }
+
+    .fade-enter-active {
+      transform: translate(0);
+      opacity: 1;
+      transition: all .2s ease;
+    }
+
+    .fade-exit {
+      opacity: 1;
+    }
+
+    .fade-exit-ative {
+      opacity: 0;
+      transition: all .2s ease;
+    }
+  </style>
+</head>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://unpkg.com/react-transition-group/dist/react-transition-group.js"></script>
+
+<body>
+  <div id="app"></div>
+
+</body>
+
+<script type="text/babel">
+  const { createRoot } = ReactDOM;
+  const { memo, useState, useRef } = React;
+  const { SwitchTransition, CSSTransition } = ReactTransitionGroup;
+
+
+  const AppContainer = memo((props) => {
+    const [imageData, setImageData] = useState([
+      {
+        id: 1,
+        name: 'image-one',
+      },
+      {
+        id: 2,
+        name: 'image-two',
+      }
+    ]);
+
+    return (
+      <App imageData={imageData} />
+    );
+  })
+
+  const App = memo((props) => {
+    const [selectIndex, setSelectIndex] = useState(0);
+    const { imageData = [] } = props;
+    return (
+      <div className="app-container">
+        <SwitchTransition mode="in-out">
+          <CSSTransition
+            key={imageData[selectIndex].id}
+            timeout={200}
+            classNames="fade"
+          >
+            <div className="title" >{imageData[selectIndex].name}</div>
+          </CSSTransition>
+        </SwitchTransition>
+        <div className="btns">
+          <button onClick={() => setSelectIndex(0)}>Prev</button>
+          <button onClick={() => setSelectIndex(1)}>Next</button>
+        </div>
+      </div>
+    );
+  });
+
+  const root = createRoot(document.getElementById('app'));
+
+  root.render(<AppContainer />);
+</script>
+
+</html>
